@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<label>heure:</label><span id="spHeure"></span><br/>
+<label>minute:</label><span id="spMinute"></span><br/>
+<label>second:</label><span id="spSecond"></span><br/>
+<input type="button"
+onclick="incrementerTimer()" value="incrementer"/>
+<input type="button" value="decrementer"/>
+<input type="button" onclick="stopTimer()" value="arreter"/>
+<script src="compteur.js" ></script>
+<script>
+  
+     // Variables globales pour l'heure, les minutes et les secondes
+     let heure = 10;
+        let minute = 23;
+        let seconde = 5;
+        let timer = null;
+
+        // Fonction pour afficher l'heure actuelle
+        function afficherTemps() {
+            document.getElementById("spHeure").innerHTML = heure;
+            document.getElementById("spMinute").innerHTML = minute;
+            document.getElementById("spSecond").innerHTML = seconde;
+        }
+
+        // Fonction pour incrémenter le temps
+        function incrementerTemps() {
+            seconde++;
+            if (seconde >= 60) {
+                seconde = 0;
+                minute++;
+                if (minute >= 60) {
+                    minute = 0;
+                    heure++;
+                }
+            }
+            afficherTemps();
+        }
+
+        // Fonction pour décrémenter le temps
+        function decrementerTemps() {
+            if (heure === 0 && minute === 0 && seconde === 0) {
+                stopTimer(); // Arrête si le temps atteint zéro
+                return;
+            }
+            
+            seconde--;
+            if (seconde < 0) {
+                seconde = 59;
+                minute--;
+                if (minute < 0) {
+                    minute = 59;
+                    heure--;
+                }
+            }
+            afficherTemps();
+        }
+
+        // Fonction pour démarrer le timer en mode incrémentation
+        function incrementerTimer() {
+            stopTimer(); // Arrête le timer en cours
+            timer = setInterval(incrementerTemps, 1000);
+        }
+
+        // Fonction pour démarrer le timer en mode décrémentation
+        function decrementerTimer() {
+            stopTimer(); // Arrête le timer en cours
+            timer = setInterval(decrementerTemps, 1000);
+        }
+
+        // Fonction pour arrêter le timer
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        // Initialisation de l'affichage
+        afficherTemps();
+</script>
+</body>
+</html>
